@@ -1,0 +1,35 @@
+@page "/"
+@using BlazorServerHelloWorld.Data
+@inject WhatsAppService WhatsappService
+
+<h1>Send a WhatsApp Message!</h1>
+
+Welcome to your new app Fill out the below form to send a message.
+<br />
+to:
+<input id="to" @bind="@To" class="input-group-text" />
+from:
+<input id="from" @bind="From" class="input-group-text" />
+text:
+<input id="text" @bind="Text" class="input-group-text" />
+@if (!string.IsNullOrEmpty(MessageId))
+{
+    <p>Message sent with id: @MessageId</p>
+}
+
+<button class="btn btn-primary" @onclick="SendWhatsApp">Send WhatsApp Message</button>
+
+
+@code{
+    private string To;
+    private string From;
+    private string Text;
+    private string MessageId;
+    private void SendWhatsApp()
+    {
+        MessageId = WhatsappService.SendWhatsAppMessage(To, From, Text);
+        To = "";
+        From = "";
+        Text = "";
+    }
+}
